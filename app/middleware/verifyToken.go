@@ -1,8 +1,8 @@
 package middleware
 
 import (
+	"golang-base-flamego/pkg/utils"
 	"regexp"
-	"golang-common-base/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 )

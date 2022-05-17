@@ -3,7 +3,7 @@ package service
 import (
 	"crypto/tls"
 	"encoding/json"
-	"golang-common-base/pkg/utils"
+	"golang-base-flamego/pkg/utils"
 	"log"
 	"time"
 

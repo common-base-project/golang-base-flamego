@@ -1,8 +1,8 @@
 package utils
 
 import (
+	"golang-base-flamego/pkg/logger"
 	"time"
-	"golang-common-base/pkg/logger"
 
 	"github.com/gin-gonic/gin"
 )

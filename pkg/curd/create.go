@@ -2,7 +2,7 @@ package curd
 
 import (
 	"fmt"
-	"golang-common-base/pkg/connection"
+	"golang-base-flamego/pkg/connection"
 )
 
 /*

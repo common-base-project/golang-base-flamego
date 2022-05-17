@@ -5,9 +5,9 @@ package models
 */
 
 import (
-	"golang-common-base/app/models/auth"
-	"golang-common-base/app/models/email"
-	"golang-common-base/pkg/connection"
+	"golang-base-flamego/app/models/auth"
+	"golang-base-flamego/app/models/email"
+	"golang-base-flamego/pkg/connection"
 )
 
 func AutoMigrateTable() {

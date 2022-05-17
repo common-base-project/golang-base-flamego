@@ -1,6 +1,6 @@
 package email
 
-import "golang-common-base/app/models/base"
+import "golang-base-flamego/app/models/base"
 
 /**
 普通邮件 model

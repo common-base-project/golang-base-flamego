@@ -6,18 +6,20 @@ package main
 
 import (
 	"fmt"
-	"golang-common-base/app/models"
-	"golang-common-base/app/router"
-	"golang-common-base/pkg/config"
-	_ "golang-common-base/pkg/config"
-	"golang-common-base/pkg/connection"
-	"golang-common-base/pkg/logger"
-	"golang-common-base/pkg/service/auth_rsync"
+	"golang-base-flamego/app/models"
+	"golang-base-flamego/app/router"
+	"golang-base-flamego/pkg/config"
+	_ "golang-base-flamego/pkg/config"
+	"golang-base-flamego/pkg/connection"
+	"golang-base-flamego/pkg/logger"
+	"golang-base-flamego/pkg/service/auth_rsync"
+	"log"
+	"net/http"
 	"os"
 
+	"github.com/flamego/flamego"
+	"github.com/ory/graceful"
 	"github.com/spf13/viper"
-
-	"github.com/gin-gonic/gin"
 )
 
 // init all
@@ -42,25 +44,51 @@ func main() {
 	// 同步数据结构
 	models.AutoMigrateTable()
 
-	g := gin.New()
-
-	if config.EnvMode == "prod" {
-		gin.SetMode(gin.ReleaseMode)
-	} else if config.EnvMode == "staging" {
-		gin.SetMode(gin.TestMode)
-	} else {
-		gin.SetMode(gin.DebugMode)
-	}
+	f := flamego.New()
 
 	// 加载路由
-	router.Load(g)
+	router.Load(f)
 
-	// 运行程序
-	err := g.Run(viper.GetString(`server.port`))
-	if err != nil {
-		logger.Error("启动失败")
-		panic(fmt.Sprintf("程序启动失败：%v", err))
+	// 启动端口
+	port := viper.GetString("server.port")
+	log.Print("server start at port:", port)
+
+	// 启动服务
+	server := graceful.WithDefaults(
+		&http.Server{
+			Addr:    port,
+			Handler: f,
+		},
+	)
+	log.Print(flamego.Env())
+	log.Println("main: Starting the server")
+	if err := graceful.Graceful(server.ListenAndServe, server.Shutdown); err != nil {
+		// 处理错误
 	}
+	log.Println("main: Server was shutdown gracefully")
+
+	// log.Println("Server is running...")
+	// log.Println(http.ListenAndServe(viper.GetString(`server.port`), f))
+
+	// g := gin.New()
+
+	// if config.EnvMode == "prod" {
+	// 	gin.SetMode(gin.ReleaseMode)
+	// } else if config.EnvMode == "staging" {
+	// 	gin.SetMode(gin.TestMode)
+	// } else {
+	// 	gin.SetMode(gin.DebugMode)
+	// }
+
+	// // 加载路由
+	// router.Load(g)
+
+	// // 运行程序
+	// err := g.Run(viper.GetString(`server.port`))
+	// if err != nil {
+	// 	logger.Error("启动失败")
+	// 	panic(fmt.Sprintf("程序启动失败：%v", err))
+	// }
 
 	defer connection.DB.Close()
 }

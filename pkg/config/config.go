@@ -7,7 +7,7 @@ package config
 import (
 	"flag"
 	"fmt"
-	"golang-common-base/pkg/logger"
+	"golang-base-flamego/pkg/logger"
 	"os"
 
 	"github.com/fsnotify/fsnotify"

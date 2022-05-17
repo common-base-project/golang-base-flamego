@@ -2,7 +2,7 @@ package connection
 
 import (
 	"github.com/streadway/amqp"
-	"golang-common-base/pkg/logger"
+	"golang-base-flamego/pkg/logger"
 )
 
 //实现异步通信

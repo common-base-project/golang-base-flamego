@@ -2,8 +2,8 @@ package connection
 
 import (
 	"fmt"
-	_ "golang-common-base/pkg/config"
-	"golang-common-base/pkg/logger"
+	_ "golang-base-flamego/pkg/config"
+	"golang-base-flamego/pkg/logger"
 	"time"
 
 	"gorm.io/gorm/schema"

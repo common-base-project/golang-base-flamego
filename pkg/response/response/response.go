@@ -5,12 +5,10 @@ package result
 */
 
 import (
+	"encoding/json"
 	"fmt"
-	"golang-common-base/pkg/logger"
-	httpCode "golang-common-base/pkg/response/code"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"golang-base-flamego/pkg/logger"
+	httpCode "golang-base-flamego/pkg/response/code"
 )
 
 type ResponseData struct {
@@ -19,7 +17,7 @@ type ResponseData struct {
 	Data   interface{} `json:"data"`
 }
 
-func Response(c *gin.Context, err error, data interface{}, resultText string) {
+func Response(err error, data interface{}, resultText string) string {
 	code, message := httpCode.DecodeErr(err)
 
 	if err != nil {
@@ -35,10 +33,19 @@ func Response(c *gin.Context, err error, data interface{}, resultText string) {
 		logger.Error(message)
 	}
 
-	// always return http.StatusOK
-	c.JSON(http.StatusOK, ResponseData{
+	res := ResponseData{
 		Errno:  code,
 		Errmsg: message,
 		Data:   data,
-	})
+	}
+
+	json, _ := json.Marshal(res)
+
+	// always return http.StatusOK
+	return string(json)
+	// c.JSON(http.StatusOK, ResponseData{
+	// 	Errno:  code,
+	// 	Errmsg: message,
+	// 	Data:   data,
+	// })
 }

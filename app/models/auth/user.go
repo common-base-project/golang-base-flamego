@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"golang-common-base/app/models/base"
-	"golang-common-base/pkg/connection"
-	"golang-common-base/pkg/response/code"
+	"golang-base-flamego/app/models/base"
+	"golang-base-flamego/pkg/connection"
+	"golang-base-flamego/pkg/response/code"
 	"log"
 )
 

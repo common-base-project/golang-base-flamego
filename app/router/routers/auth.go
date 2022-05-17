@@ -5,22 +5,23 @@ package routers
 
 import (
 	"fmt"
-	"golang-common-base/app/handler/auth"
+	"github.com/flamego/binding"
+	"golang-base-flamego/app/handler/auth"
+	model "golang-base-flamego/app/models/auth"
 
-	"github.com/gin-gonic/gin"
+	"github.com/flamego/flamego"
 	"github.com/spf13/viper"
 )
 
-// 用户
-func UserRouter(g *gin.Engine) {
+// UserRouter 用户
+func UserRouter(g *flamego.Flame) {
 	authRouterUser := fmt.Sprintf("%s%s", viper.GetString(`api.version`), "/user")
-	authUser := g.Group(authRouterUser)
-	{
-		authUser.POST("", auth.CreateUserHandler)
-		authUser.PUT("/:id", auth.UpdateUserHandler)
-		authUser.DELETE("/:id", auth.DeleteUserHandler)
-		authUser.GET("", auth.UserListHandler)
-		authUser.GET("/:id", auth.UserDetailHandler)
-		authUser.GET("/:id/dept-user", auth.DeptUserListHandler)
-	}
+	g.Group(authRouterUser, func() {
+		g.Post("", binding.JSON(model.User{}), auth.CreateUserHandler)
+		g.Get("", auth.UserListHandler)
+		g.Put("/{id}", binding.JSON(model.User{}), auth.UpdateUserHandler)
+		g.Delete("/{id}", auth.DeleteUserHandler)
+		g.Get("/{id}", auth.UserDetailHandler)
+		//g.Get("/:id/dept-user", auth.DeptUserListHandler)
+	})
 }

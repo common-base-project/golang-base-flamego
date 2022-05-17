@@ -5,7 +5,7 @@ package base
 */
 
 import (
-	"golang-common-base/pkg/jsonTime"
+	"golang-base-flamego/pkg/jsonTime"
 )
 
 type Model struct {

@@ -6,16 +6,14 @@ package pagination
 
 import (
 	"fmt"
-	"golang-common-base/pkg/logger"
+	"golang-base-flamego/pkg/logger"
 	"math"
 
 	"gorm.io/gorm"
-
-	"github.com/gin-gonic/gin"
 )
 
 type Param struct {
-	C       *gin.Context
+	//C       *gin.Context
 	DB      *gorm.DB
 	ShowSQL bool
 }
@@ -43,10 +41,10 @@ func Paging(p *Param, data interface{}, result interface{}, args ...interface{})
 		tableName string
 	)
 
-	if err := p.C.Bind(&param); err != nil {
-		logger.Errorf("参数绑定失败，错误：%v", err)
-		return nil, err
-	}
+	//if err := p.C.Bind(&param); err != nil {
+	//	logger.Errorf("参数绑定失败，错误：%v", err)
+	//	return nil, err
+	//}
 
 	db := p.DB
 

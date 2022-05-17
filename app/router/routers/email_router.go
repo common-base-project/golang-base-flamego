@@ -6,22 +6,19 @@ package routers
 
 import (
 	"fmt"
-	email2 "golang-common-base/app/handler/email"
-
-	"github.com/gin-gonic/gin"
+	"github.com/flamego/flamego"
 	"github.com/spf13/viper"
 )
 
 // email 路由
-func EmailRouter(g *gin.Engine) {
+func EmailRouter(g *flamego.Flame) {
 	routerEmail := fmt.Sprintf("%s%s", viper.GetString(`api.version`), "/email")
-	email := g.Group(routerEmail)
-	{
+	g.Group(routerEmail, func() {
 		// Upload
-		email.GET("/list", email2.GetEmailListHandler)
-		email.POST("/add", email2.AddEmailHandler)
-		email.PUT("/update/:id", email2.UpdateEmailHandler)
-		email.DELETE("/delete/:contentId", email2.DeleteEmailHandler)
-		email.POST("/push", email2.AddPushHandler)
-	}
+		//g.Get("/list", email2.GetEmailListHandler)
+		//g.Post("/add", email2.AddEmailHandler)
+		//g.Put("/update/:id", email2.UpdateEmailHandler)
+		//g.Delete("/delete/:contentId", email2.DeleteEmailHandler)
+		//g.Post("/push", email2.AddPushHandler)
+	})
 }

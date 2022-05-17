@@ -3,9 +3,9 @@ package email
 import (
 	"crypto/tls"
 	"fmt"
+	"golang-base-flamego/pkg/logger"
 	"net/smtp"
 	"strings"
-	"golang-common-base/pkg/logger"
 
 	"github.com/spf13/viper"
 )
