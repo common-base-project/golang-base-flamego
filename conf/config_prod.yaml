@@ -26,7 +26,7 @@ jwt:
 email:
   eim:
     server: partner.outlook.cn
-    sender: eim@xxx.com
+    sender: test@xxx.com
     password: 123456
     port: 587
     security: true

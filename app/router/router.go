@@ -5,14 +5,11 @@ package router
 */
 
 import (
-	"golang-base-flamego/app/models/auth"
-	"golang-base-flamego/app/router/routers"
-	_ "golang-base-flamego/docs"
-	"golang-base-flamego/pkg/connection"
-
 	"github.com/flamego/cors"
 	"github.com/flamego/flamego"
 	"github.com/spf13/viper"
+	"golang-base-flamego/app/router/routers"
+	_ "golang-base-flamego/docs"
 )
 
 // Load 加载路由
@@ -54,16 +51,14 @@ func Load(g *flamego.Flame) {
 
 	// staticPath := fmt.Sprintf("%s%s", viper.GetString(`api.version`), "/upload")
 	// 静态文件地址 http://localhost:port/api/v1/upload/fileid.jpg
+	g.Use(flamego.Logger())
+	g.Use(flamego.Recovery())
+
 	g.Use(flamego.Renderer())
 
 	// 全局注入db
-	db := connection.DB.Self
-	g.Map(db)
-
-	g.Map(auth.User{})
-
-	g.Use(flamego.Recovery())
-	g.Use(flamego.Logger())
+	//db := connection.DB.Self
+	//g.Map(db)
 
 	g.Use(
 		flamego.Static(

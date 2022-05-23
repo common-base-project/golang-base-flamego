@@ -11,11 +11,6 @@ db:
     maxOpenConn: 100
     maxIdleConn: 10
     singularTable: 1
-mq:
-  mq_addr: "amqp://guest:guest@localhost:5672/"
-  queue_name: "msgQueueWithPersist"
-  producernt: 5
-  consumercnt: 20
 log:
   level: debug
   maxsize: 1
