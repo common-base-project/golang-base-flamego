@@ -14,7 +14,7 @@ import (
   @Author : Mustang Kong
 */
 
-// 请求网关数据
+// RequestGateway 请求网关数据
 func RequestGateway(URL string, params map[string]string) (cResp utils.MyResp, err error) {
 	client := resty.New()
 	client.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true})
@@ -43,7 +43,7 @@ func RequestGateway(URL string, params map[string]string) (cResp utils.MyResp, e
 	return
 }
 
-// 请求数据默认
+// RequestGet 请求数据默认
 func RequestGet(URL string, params map[string]string) ([]byte, error) {
 	client := resty.New()
 	client.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true})
@@ -62,7 +62,7 @@ func RequestGet(URL string, params map[string]string) ([]byte, error) {
 	return resp.Body(), nil
 }
 
-// 请求数据 post
+// RequestPost 请求数据 post
 func RequestPost(URL string, params interface{}) ([]byte, error) {
 	client := resty.New()
 	client.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true})

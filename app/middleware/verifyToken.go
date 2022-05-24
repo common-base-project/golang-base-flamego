@@ -1,8 +1,10 @@
 package middleware
 
 import (
+	"errors"
 	"github.com/flamego/flamego"
 	"golang-base-flamego/pkg/utils"
+	"net/http"
 	"regexp"
 )
 
@@ -23,7 +25,8 @@ func CheckToken() func(context flamego.Context) {
 			context.Next()
 			return
 		} else {
-			context.ResponseWriter().Write([]byte("{\"errno\": 100001, \"errmsg\": \"access token无效\"}"))
+			context.ResponseWriter().WriteHeader(http.StatusInternalServerError)
+			context.ResponseWriter().Write([]byte(errors.New("access token无效").Error()))
 			return
 		}
 	}
