@@ -3,7 +3,7 @@ package utils
 import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
+	"github.com/flamego/flamego"
 	"log"
 	"time"
 )
@@ -33,9 +33,9 @@ const TokenExpire = 5 * time.Second
 const TokenNameInHeader = "Authorization"
 const RequestID = "X-Request-ID"
 
-// 解析token		检测token是否有效、过期、字段信息等
-func (at *AccessToken) ValidateToken(context *gin.Context, tokenString string) bool {
-	return true
+// ValidateToken 解析token	检测token是否有效、过期、字段信息等
+func (at *AccessToken) ValidateToken(context flamego.Context, tokenString string) bool {
+	//return true
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
@@ -49,29 +49,23 @@ func (at *AccessToken) ValidateToken(context *gin.Context, tokenString string) b
 	}
 
 	if claim, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		username := claim["username"]
-		email := claim["email"]
-		role := claim["role"]
-		group := claim["group"]
-		ldap := claim["ldap"]
-		union_id := claim["union_id"]
-		//log.Printf("username", username)
-		//log.Printf("email", email)
-		//log.Printf("role", role)
-		//log.Printf("group", group)
-		//log.Printf("ldap", ldap)
-		//log.Printf("union_id", union_id)
+		username := claim["username"].(string)
+		email := claim["email"].(string)
+		role := claim["role"].(string)
+		group := claim["group"].(string)
+		ldap := claim["ldap"].(string)
+		union_id := claim["union_id"].(string)
 
-		if ldap == nil || ldap == "" {
+		if ldap == "" {
 			return false
 		}
 
-		context.Set("username", username)
-		context.Set("email", email)
-		context.Set("role", role)
-		context.Set("group", group)
-		context.Set("ldap", ldap)
-		context.Set("union_id", union_id)
+		context.Request().Header.Set("username", username)
+		context.Request().Header.Set("email", email)
+		context.Request().Header.Set("role", role)
+		context.Request().Header.Set("group", group)
+		context.Request().Header.Set("ldap", ldap)
+		context.Request().Header.Set("union_id", union_id)
 		return true
 	} else {
 		// token无效
@@ -80,7 +74,7 @@ func (at *AccessToken) ValidateToken(context *gin.Context, tokenString string) b
 	}
 }
 
-// 生成token返回tokenString用于设置http header
+// GenerateToken 生成token返回tokenString用于设置http header
 func (at *AccessToken) GenerateToken() string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS512, jwt.MapClaims{
 		"request_time": at.RequestTime,

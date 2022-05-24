@@ -67,28 +67,5 @@ func main() {
 	}
 	log.Println("main: Server was shutdown gracefully")
 
-	// log.Println("Server is running...")
-	// log.Println(http.ListenAndServe(viper.GetString(`server.port`), f))
-
-	// g := gin.New()
-
-	// if config.EnvMode == "prod" {
-	// 	gin.SetMode(gin.ReleaseMode)
-	// } else if config.EnvMode == "staging" {
-	// 	gin.SetMode(gin.TestMode)
-	// } else {
-	// 	gin.SetMode(gin.DebugMode)
-	// }
-
-	// // 加载路由
-	// router.Load(g)
-
-	// // 运行程序
-	// err := g.Run(viper.GetString(`server.port`))
-	// if err != nil {
-	// 	logger.Error("启动失败")
-	// 	panic(fmt.Sprintf("程序启动失败：%v", err))
-	// }
-
 	defer connection.DB.Close()
 }
